@@ -3,6 +3,7 @@ using Ductus.FluentDocker.Extensions;
 using Ductus.FluentDocker.Model.Containers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using Ductus.FluentDocker.Executors.Mappers;
 
 namespace Ductus.FluentDocker.Tests.Model.Containers
 {
@@ -13,10 +14,22 @@ namespace Ductus.FluentDocker.Tests.Model.Containers
     public void TestWithNoCreated()
     {
       var data = ((TemplateString)"Model/Containers/inspect_no_create.json").FromFile();
-      var obj = JsonConvert.DeserializeObject<Container>(data);
+      var obj = JsonConvert.DeserializeObject<Container>(data,
+        new PodmanCompatibleInspectContainerConfigJsonConverter(),
+        new PodmanCompatibleInspectStateJsonConverter());
 
-      Assert.AreEqual(obj.Created, default(System.DateTime));
+      Assert.AreEqual(obj.Created, default);
     }
 
+    [TestMethod]
+    public void TestWithNoCreatedPodman()
+    {
+      var data = ((TemplateString)"Model/Containers/inspect_no_create_podman.json").FromFile();
+      var obj = JsonConvert.DeserializeObject<Container>(data,
+        new PodmanCompatibleInspectContainerConfigJsonConverter(),
+        new PodmanCompatibleInspectStateJsonConverter());
+
+      Assert.AreEqual(obj.Created, default);
+    }
   }
 }

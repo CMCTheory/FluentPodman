@@ -58,4 +58,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Model\Containers\inspect_no_create_podman.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

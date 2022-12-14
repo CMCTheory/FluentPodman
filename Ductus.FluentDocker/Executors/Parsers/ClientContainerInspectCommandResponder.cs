@@ -1,4 +1,5 @@
-﻿using System.Text;
+using System.Text;
+using Ductus.FluentDocker.Executors.Mappers;
 using Ductus.FluentDocker.Model.Containers;
 using Newtonsoft.Json;
 
@@ -31,7 +32,9 @@ namespace Ductus.FluentDocker.Executors.Parsers
       }
 
       var container = sb.ToString();
-      var obj = JsonConvert.DeserializeObject<Container>(container);
+      var obj = JsonConvert.DeserializeObject<Container>(container,
+        new PodmanCompatibleInspectContainerConfigJsonConverter(),
+        new PodmanCompatibleInspectStateJsonConverter());
 
       obj.Name = TrimIfBeginsWithSlash(obj.Name);
 
