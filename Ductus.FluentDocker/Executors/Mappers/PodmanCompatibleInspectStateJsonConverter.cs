@@ -22,7 +22,7 @@ namespace Ductus.FluentDocker.Executors.Mappers
           currentState = "Unhealthy";
         }
         
-        item["Health"]["Status"].Replace(JValue.CreateString(currentState));
+        item["Health"]["Status"].Replace(JValue.CreateString(string.join("", currentState.Select((x,i) => i == 0 ? x.ToString().ToUpper() : x.ToString()))));
       }
 
       return item.ToObject<ContainerState>();
